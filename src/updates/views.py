@@ -42,7 +42,7 @@ class JsonCBV2(JsonResponseMixin, View):
 
 
 #single view
-class SerializedDetailView(View):
+class SerializedDetailViewOld(View):
     def get(self, request, *args, **kwargs):
         obj = Update.objects.get(id=1)
         data = serialize("json", [obj,],  fields=('user', 'content') )
@@ -54,11 +54,18 @@ class SerializedDetailView(View):
         json_data = data
         return HttpResponse(json_data, content_type='application/json')
 
+#single view
+class SerializedDetailView(View):
+    def get(self, request, *args, **kwargs):
+        obj = Update.objects.get(id=1)
+        json_data = obj.serialize()
+        return HttpResponse(json_data, content_type='application/json')
+
 #list view : all the data (query set)
-class SerializedListView(View):
+class SerializedListViewOld(View):
     def get(self, request, *args, **kwargs):
         qs = Update.objects.all() #qs is query list []
-        data = serialize("json", qs,  fields=('user', 'content') )
+        data = serialize("json", qs)# fields=('user', 'content') )
         print(data)
         json_data = data
         # data = {
@@ -66,4 +73,11 @@ class SerializedListView(View):
         #     "content": qs.content
         # }
         # json_data = json.dumps(data)
+        return HttpResponse(json_data, content_type='application/json')
+
+#
+class SerializedListView(View):
+    def get(self, request, *args, **kwargs):
+        qs = Update.objects.all() #qs is query list []
+        json_data = Update.objects.all().serialize()
         return HttpResponse(json_data, content_type='application/json')
