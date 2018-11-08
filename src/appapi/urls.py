@@ -20,11 +20,10 @@ from updates.views import JsonCBV, JsonCBV2, SerializedListView, SerializedDetai
 urlpatterns = [
      url(r'^admin/', admin.site.urls),
 
-     url(r'^api/updates/', include('updates.api.urls')) #api/updates/ --> list api/udates/1/ detail view
+     url(r'^api/updates/', include('updates.api.urls')), #api/updates/ --> list api/udates/1/ detail view
 
-    # url(r'^json/cbv/$', JsonCBV.as_view()),
-    # url(r'^json/cbv2/$', JsonCBV2.as_view()),
-    # url(r'^json/serialized/list/$', SerializedListView.as_view()),
-    # url(r'^json/serialized/detail/$', SerializedDetailView.as_view()),
-    #url(r'^$', json_view_view),
+     url(r'^api/status/', include('status.api.urls')),
+     #framework
+     url(r'^api-auth/', include('rest_framework.urls')),
+
 ]
