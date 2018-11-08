@@ -24,7 +24,7 @@ class UpdateQuerySet(models.QuerySet):
     #     return json.dumps(final_array)
 
     def serialize(self):
-        list_values = list(self.values("user", "content", "image"))
+        list_values = list(self.values("user", "content", "image", "id"))
         print(list_values)
         return json.dumps(list_values)
 
@@ -49,9 +49,23 @@ class Update(models.Model):
         return self.content or ""
 
     def serialize(self):
+
+        try:
+            image = self.image.url
+        except:
+            image = ""
+
+        data = {
+            "id": self.id,
+            "content": self.content,
+            "user": self.user.id,
+            "image": image
+        }
+        data = (json.dumps(data))
         #seriazlize individual instance
-        json_data = serialize("json", [self], fields=('user', 'content', 'image'))
-        stuct = json.loads(json_data) #turn json data to python dictionary , a list of dictionaryies in python, so can apply python code
-        print(stuct)
-        data = json.dumps(stuct[0]['fields'])
+        # json_data = serialize("json", [self], fields=('user', 'content', 'image'))
+        # stuct = json.loads(json_data) #turn json data to python dictionary , a list of dictionaryies in python, so can apply python code
+        # print(stuct)
+        # data = json.dumps(stuct[0]['fields'])
+        print(type(data))
         return data

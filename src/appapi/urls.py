@@ -13,15 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
 from updates.views import JsonCBV, JsonCBV2, SerializedListView, SerializedDetailView
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^json/cbv/$', JsonCBV.as_view()),
-    url(r'^json/cbv2/$', JsonCBV2.as_view()),
-    url(r'^json/serialized/list/$', SerializedListView.as_view()),
-    url(r'^json/serialized/detail/$', SerializedDetailView.as_view()),
+     url(r'^admin/', admin.site.urls),
+
+     url(r'^api/updates/', include('updates.api.urls')) #api/updates/ --> list api/udates/1/ detail view
+
+    # url(r'^json/cbv/$', JsonCBV.as_view()),
+    # url(r'^json/cbv2/$', JsonCBV2.as_view()),
+    # url(r'^json/serialized/list/$', SerializedListView.as_view()),
+    # url(r'^json/serialized/detail/$', SerializedDetailView.as_view()),
     #url(r'^$', json_view_view),
 ]
